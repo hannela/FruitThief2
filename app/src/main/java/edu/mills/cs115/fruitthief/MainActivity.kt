@@ -11,6 +11,10 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import edu.mills.cs115.fruitthief.databinding.ActivityMainBinding
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.add
@@ -28,11 +32,15 @@ import edu.mills.cs115.fruitthief.map.MapFragment
 
 class MainActivity : AppCompatActivity() { //, OnMapReadyCallback {
 
-    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        navController = findNavController(R.id.nav_host_fragment)
+
         title = "Fruit Thief"
 
         // GPS Permission
@@ -57,19 +65,12 @@ class MainActivity : AppCompatActivity() { //, OnMapReadyCallback {
             }
         }
 
-        // Everything else
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            // TODO navigate to add tree frag
+            navController.navigate(R.id.action_mapFragment2_to_addTreeFragment2)
         }
-        drawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
 
-        navView.setupWithNavController(navController)
+        setUpNavigation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,6 +81,22 @@ class MainActivity : AppCompatActivity() { //, OnMapReadyCallback {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
-        return NavigationUI.navigateUp(navController, drawerLayout)
+        return NavigationUI.navigateUp(navController, binding.drawerLayout)
+    }
+
+    private fun setUpNavigation() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+        setupActionBarWithNavController(navController, binding.drawerLayout)
+        binding.navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
+            if (destination.id != R.id.mapFragment2) {
+                findViewById<FloatingActionButton>(R.id.fab).hide()
+            } else {
+                findViewById<FloatingActionButton>(R.id.fab).show()
+            }
+        }
     }
 }
