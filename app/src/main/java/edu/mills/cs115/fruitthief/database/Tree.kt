@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Data table of trees.
+ * Data table of trees, their location and fruit type.
  *
- * @param fruit corresponds to the key of the fruit type in fruit_info_table
+ * @param fruit key of the tree's fruit type in fruit_info_table
  * @param lat latitude of Tree
- * @param long longitude of Tree
+ * @param lng longitude of Tree
  */
 @Entity(tableName = "tree_info_table")
 data class Tree(

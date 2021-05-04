@@ -7,6 +7,7 @@ import edu.mills.cs115.fruitthief.database.FruitTreeDAO
 import edu.mills.cs115.fruitthief.database.FruitTreeDatabase
 import edu.mills.cs115.fruitthief.database.PopulateFruitTable
 import junit.framework.Assert.*
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.After
 import org.junit.Test
@@ -38,9 +39,11 @@ class FruitTreeDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertFruit(){
-        PopulateFruitTable(fruitTreeDao);
-        assertEquals("Banana", fruitTreeDao.getFruitByName("Banana").fruitName)
-        PopulateFruitTable(fruitTreeDao)
-        assertEquals("IJKL", fruitTreeDao.getFruitByName("Apple").fruitSeason)
+        runBlocking{
+            PopulateFruitTable(fruitTreeDao);
+            assertEquals("Apple", fruitTreeDao.getFruitByName("Apple").fruitName)
+            PopulateFruitTable(fruitTreeDao)
+            assertEquals("KLABC", fruitTreeDao.getFruitByName("Pomelo").fruitSeason)
+        }
     }
 }

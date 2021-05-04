@@ -13,6 +13,12 @@ abstract class FruitTreeDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: FruitTreeDatabase? = null
 
+        /**
+         *
+         * @param context app Context
+         * @return app's instance of the database
+         */
+
         fun getInstance(context: Context): FruitTreeDatabase {
             // Multiple threads can ask for the database at the same time, ensure we only initialize
             // it once by using synchronized. Only one thread may enter a synchronized block at a

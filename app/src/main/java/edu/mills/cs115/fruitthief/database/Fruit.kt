@@ -6,10 +6,8 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 /**
- * Data table of fruit and their seasons. To be prepopulated when the user first opens the app.
+ * Data table of fruit and their seasons. Prepopulated when the user first opens the app.
  *
- * @constructor fruitName name of the fruit
- * @constructor fruit season represented by A-L as corresponds to Jan-Dec
  */
 @Entity(tableName = "fruit_info_table")
 data class Fruit (
@@ -19,7 +17,10 @@ data class Fruit (
     @ColumnInfo(name = "fruit_name")
     var fruitName: String,
 
-    //A-L = Jan-Dec
+    /**
+     * Representation of fruit's season.
+     * A-L = Jan-Dec, eg "ABC" = Jan-March
+     */
     @ColumnInfo(name = "fruit_season")
     var fruitSeason: String
 )
